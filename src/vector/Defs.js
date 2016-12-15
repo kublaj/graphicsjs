@@ -192,6 +192,7 @@ acgraph.vector.Defs.prototype.getHatchFill = function(opt_type, opt_color, opt_t
   var size = goog.isDefAndNotNull(opt_size) ? opt_size : 10;
 
   var id = acgraph.vector.HatchFill.serialize(type, color, thickness, size);
+
   if (goog.object.containsKey(this.hatchFills_, id)) return this.hatchFills_[id];
   return this.hatchFills_[id] = new acgraph.vector.HatchFill(type, color, thickness, size);
 };
@@ -303,6 +304,10 @@ acgraph.vector.Defs.prototype.disposeInternal = function() {
   acgraph.getRenderer().removeNode(this.domElement_);
   this.domElement_ = null;
 
-  this.linearGradients_ = null;
+  goog.disposeAll(this.linearGradients_);
+  goog.disposeAll(this.radialGradients_);
+  goog.disposeAll(this.imageFills_);
+  // goog.disposeAll(this.hatchFills_);
+
   delete this.stage;
 };
